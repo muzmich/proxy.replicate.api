@@ -1,7 +1,7 @@
 {
   "name": "module3",
   "version": "1.0.0",
-  "description": "This is a version of 'weather here' app by Joey Lee.",
+  "description": "Web Proxy for connection to Replicate API to Stable Diffusion, based on Shiffman, based on Joey Lee ",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -12,7 +12,7 @@
     "api",
     "selfie"
   ],
-  "author": "Daniel Shiffman",
+  "author": "Dan O'Sullivan",
   "license": "MIT",
   "dependencies": {
     "dotenv": "^8.0.0",
