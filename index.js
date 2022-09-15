@@ -4,7 +4,8 @@ const fetch = require('node-fetch');
 require('dotenv').config();
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4001;
+console.log(port);
 app.listen(port, () => {
   console.log(`Starting server at ${port}`);
 });
