@@ -16,7 +16,7 @@ communicate();
 
 askForPicture() ;
 async function askForPicture() {
-  console.log("Communicating ", data);
+  console.log("Asking ");
   const options = {
     method: "POST",
     headers: {
