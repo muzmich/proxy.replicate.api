@@ -4,8 +4,8 @@ const fetch = require('node-fetch');
 require('dotenv').config();
 
 const app = express();
-const port = process.env.PORT || 4001;
-console.log(port);
+const port = process.env.PORT || 3000;
+
 app.listen(port, () => {
   console.log(`Starting server at ${port}`);
 });
@@ -14,6 +14,15 @@ app.use(express.json({ limit: '1mb' }));
 
 const database = new Datastore('database.db');
 database.loadDatabase();
+
+app.post('/hellow', (request, response) => {
+  const data = request.body;
+  data.message = "HELLOW BACK AT YOU";
+  console.log(data.incoming);
+  //database.insert(data);
+  response.json(data);
+});
+
 
 app.get('/api', (request, response) => {
   database.find({}, (err, data) => {
