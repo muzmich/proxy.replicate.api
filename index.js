@@ -15,7 +15,7 @@ app.use(express.json({ limit: '1mb' }));
 const database = new Datastore('database.db');
 database.loadDatabase();
 
-app.post('/hellow', (request, response) => {
+app.post('/hello', (request, response) => {
   const data = request.body;
   data.message = "HELLOW BACK AT YOU";
   console.log(data.incoming);
