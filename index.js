@@ -24,15 +24,35 @@ app.post('/hello', (request, response) => {
 });
 
 
-app.get('/api', (request, response) => {
-  database.find({}, (err, data) => {
-    if (err) {
-      response.end();
-      return;
-    }
-    response.json(data);
-  });
+curl -s -X POST \
+  -d '{"version": "29565a19f1fb04c8d8e9864bc08a22ce0c982398165fa4cdc61d2f2c777a35a0", "input": {"prompt": "female cyborg assimilated by alien fungus, intricate Three-point lighting portrait, by Ching Yeh and Greg Rutkowski, detailed cyberpunk in the style of GitS 1995"}}' \
+  -H "Authorization: Token $REPLICATE_API_TOKEN" \
+  -H 'Content-Type: application/json' \
+  https://api.replicate.com/v1/predictions
+app.get('/replicate_api/:latlon', async (request, response) => {
+  console.log(request.params);
+  const latlon = request.params.latlon.split(',');
+  console.log(latlon);
+  const lat = latlon[0];
+  const lon = latlon[1];
+  console.log(lat, lon);
+  const api_key = process.env.API_KEY;
+  const weather_url = `https://api.replicate.com/v1/predictions${api_key}/${lat},${lon}/?units=si`;
+  const weather_response = await fetch(weather_url);
+  const weather_data = await weather_response.json();
+
+  const aq_url = `https://api.openaq.org/v1/latest?coordinates=${lat},${lon}`;
+  const aq_response = await fetch(aq_url);
+  const aq_data = await aq_response.json();
+
+  const data = {
+    weather: weather_data,
+    air_quality: aq_data
+  };
+  response.json(data);
 });
+
+
 
 app.post('/api', (request, response) => {
   const data = request.body;
