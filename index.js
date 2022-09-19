@@ -30,12 +30,12 @@ app.post("/replicate_api", async (request, response) => {
   let data = {
     version: "a9758cbfbd5f3c2094457d996681af52552901775aa2d6dd0b17fd15df959bef",
     input: {
-      prompt: request.body.prompt,
-    },
+      prompt: request.body.prompt
+    }
   };
-
+ console.log(data.input.prompt, data.version);
   const api_key = process.env.REPLICATE_API_KEY;
-  console.log("token", api_key, data);
+ // console.log("token", api_key, data);
   const replicate_url = "https://api.replicate.com/v1/predictions";
   const options = {
     headers: { Authorization: `Token ${api_key}` },
