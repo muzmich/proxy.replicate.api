@@ -42,21 +42,21 @@ app.post("/replicate_api", async (request, response) => {
   let data = {
     version: version,
     input: {
-      prompt: request.body.prompt,
-    },
+      prompt: request.body.prompt
+    }
   };
-  console.log(data.input.prompt, data.version);
+  console.log("prompt: " , data.input.prompt, " data:", data.version);
 
   // console.log("token", api_key, data);
   const replicate_url = "https://api.replicate.com/v1/predictions";
   const options = {
-    headers: { Authorization: `Token ${api_key}` },
+    headers: { Authorization: `Token ${api_key}`,"Content-Type": "application/json" },
     method: "POST",
     body: JSON.stringify(data),
   };
 
   const replicate_response = await fetch(replicate_url, options);
   const replicate_result = await replicate_response.json();
-  console.log(replicate_result);
-  response.json(replicate_result);
+  console.log(replicate_result.id);
+  response.json(replicate_result.id);
 });
