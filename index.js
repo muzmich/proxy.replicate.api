@@ -40,8 +40,9 @@ app.post("/replicate_api", async (request, response) => {
   const options = {
     headers: { Authorization: `Token ${api_key}` },
     method: "POST",
-    body: data //JSON.stringify(data),
+    body: JSON.stringify(data)
   };
+  
 
   const replicate_response = await fetch(replicate_url, options);
   const replicate_result = await replicate_response.json();
