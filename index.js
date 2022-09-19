@@ -26,35 +26,35 @@ app.post("/hello", (request, response) => {
   response.json(data);
 });
 
-
-
 app.post("/replicate_api", async (request, response) => {
-    const api_key = process.env.REPLICATE_API_KEY;
-    const model_url = "https://api.replicate.com/v1/models/replicate/stable-diffusion/versions";
-  
-    let modelVersionOptions = {
-          headers: { Authorization: `Token ${api_key}` },
-            method: "GET"
-        }
-     const models_response = await fetch(model_url ,  modelVersionOptions );
-    const models_result = await models_response.json();
-  console.log("models response" , models_result.results[0]);
-  let data = {
-    version: "a9758cbfbd5f3c2094457d996681af52552901775aa2d6dd0b17fd15df959bef",
-    input: {
-      prompt: request.body.prompt
-    }
+  const api_key = process.env.REPLICATE_API_KEY;
+  const model_url =
+    "https://api.replicate.com/v1/models/stability-ai/stable-diffusion";
+  //  GET                 https://api.replicate.com/v1/models/{model_owner}/{model_name}
+  let modelVersionOptions = {
+    headers: { Authorization: `Token ${api_key}` },
+    method: "GET",
   };
- console.log(data.input.prompt, data.version);
+  const models_response = await fetch(model_url, modelVersionOptions);
+  const models_result = await models_response.json();
+  let version = models_result.latest_version.id;
+  console.log("models response", version);
+  let data = {
+    version: version,
+    input: {
+      prompt: request.body.prompt,
+    },
+  };
+  console.log(data.input.prompt, data.version);
 
- // console.log("token", api_key, data);
+  // console.log("token", api_key, data);
   const replicate_url = "https://api.replicate.com/v1/predictions";
   const options = {
     headers: { Authorization: `Token ${api_key}` },
     method: "POST",
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   };
-  
+
   const replicate_response = await fetch(replicate_url, options);
   const replicate_result = await replicate_response.json();
   console.log(replicate_result);
