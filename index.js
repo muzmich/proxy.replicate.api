@@ -17,10 +17,11 @@ database.loadDatabase();
 
 app.post("/hello", (request, response) => {
   const data = request.params;
-  data.message = "HELLOW BACK AT YOU";
+
   console.log("got something ", data);
   //database.insert(data);
-  
+  data.message = "HELLOW BACK AT YOU";
+  data.justforshow = "wow";
   response.json(data);
 });
 

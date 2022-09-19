@@ -1,5 +1,5 @@
 async function communicate() {
-  const data = { incoming: "well helloooo" };
+  const data = { incoming: "Hello" };
   console.log("Communicating sending ", data);
   const options = {
     method: "POST",
@@ -8,8 +8,8 @@ async function communicate() {
     },
     body: JSON.stringify(data),
   };
-  const hello_response = await fetch("/hello", data);
-  console.log("response to communitcation", options);
+  const hello_response = await fetch("/hello", options);
+  console.log("response to communitcation", hello_response.json);
  //const db_json = await db_response.json();
   //console.log(db_json);
 }
