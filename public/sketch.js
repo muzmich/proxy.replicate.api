@@ -8,7 +8,8 @@ async function communicate() {
     },
     body: JSON.stringify(data),
   };
-  const hello_response = await fetch("/hello", options);
+  const hello_response = await fetch("/hello/", options);
+  const proxy_said = await response.json();
   console.log("response to communitcation", hello_response.json);
  //const db_json = await db_response.json();
   //console.log(db_json);

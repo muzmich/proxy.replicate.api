@@ -15,13 +15,15 @@ app.use(express.json({ limit: "1mb" }));
 const database = new Datastore("database.db");
 database.loadDatabase();
 
+
 app.post("/hello", (request, response) => {
-  const data = request.params;
+  const data = request.body;
 
   console.log("got something ", data);
   //database.insert(data);
   data.message = "HELLOW BACK AT YOU";
   data.justforshow = "wow";
+    console.log("returning ", data);
   response.json(data);
 });
 
