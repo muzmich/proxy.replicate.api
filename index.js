@@ -27,8 +27,8 @@ app.post("/hello", (request, response) => {
   response.json(data);
 });
 
-app.get("/query/:propmpt", async (request, response) => {
-  console.log(request.params);
+app.post("/replicate_api", async (request, response) => {
+  console.log("got request to talk to replicate", request.params);
   let data = {
     version: "29565a19f1fb04c8d8e9864bc08a22ce0c982398165fa4cdc61d2f2c777a35a0",
     input: {
@@ -54,3 +54,4 @@ app.get("/query/:propmpt", async (request, response) => {
   return result;
   
 });
+

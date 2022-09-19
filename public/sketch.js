@@ -9,15 +9,34 @@ async function communicate() {
     body: JSON.stringify(data),
   };
   const hello_response = await fetch("/hello/", options);
-  const proxy_said = await response.json();
-  console.log("response to communitcation", hello_response.json);
+  const proxy_said = await hello_response.json();
+  console.log("proxy relayed this", proxy_said);
+  askForPicture() ;
  //const db_json = await db_response.json();
   //console.log(db_json);
 }
-communicate();
-//askForPicture() ;
+//communicate();
+askForPicture() ;
 
 //
+
+async function askForPicture() {
+  const data = { prompt: "Tall Frog" };
+  console.log("Asking for Picture ", data);
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+  const picture_response = await fetch("/replicate_api/", options);
+  const proxy_said = await picture_response.json();
+  console.log("proxy relayed this about picture", proxy_said);
+ //const db_json = await db_response.json();
+  //console.log(db_json);
+}
+/*
 async function askForPicture() {
   console.log("Asking ");
   const options = {
@@ -31,4 +50,4 @@ async function askForPicture() {
   const db_json = await db_response.json();
   console.log(db_json);
 }
-
+*/
