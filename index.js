@@ -29,14 +29,15 @@ app.post("/hello", (request, response) => {
 
 
 app.post("/replicate_api", async (request, response) => {
-  
+    const api_key = process.env.REPLICATE_API_KEY;
+    const model_url = "https://api.replicate.com/v1/models/replicate/hello-world/versions";
   
     let modelVersionOptions = {
-            url: `https://api.replicate.com/v1/models/replicate/stable_diffusion/versions`,
-            method: "get",
-            event: "getModel",
+          headers: { Authorization: `Token ${api_key}` },
+            method: "POST"
         }
-     const models_response = await fetch(replicate_url, options);
+     const models_response = await fetch(model_url ,  modelVersionOptions );
+  console.log(models_response, modelVersionOptions);
   let data = {
     version: "a9758cbfbd5f3c2094457d996681af52552901775aa2d6dd0b17fd15df959bef",
     input: {
@@ -44,7 +45,7 @@ app.post("/replicate_api", async (request, response) => {
     }
   };
  console.log(data.input.prompt, data.version);
-  const api_key = process.env.REPLICATE_API_KEY;
+
  // console.log("token", api_key, data);
   const replicate_url = "https://api.replicate.com/v1/predictions";
   const options = {
