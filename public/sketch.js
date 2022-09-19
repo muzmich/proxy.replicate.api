@@ -8,13 +8,14 @@ async function communicate() {
     },
     body: JSON.stringify(data),
   };
-  //const db_response = await fetch("/hello", options);
+  const hellow_response = await fetch("/hello");
  //const db_json = await db_response.json();
   //console.log(db_json);
 }
 communicate();
-
 //askForPicture() ;
+
+//
 async function askForPicture() {
   console.log("Asking ");
   const options = {
