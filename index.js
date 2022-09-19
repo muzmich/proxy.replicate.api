@@ -41,7 +41,7 @@ app.post("/replicate_api", async (request, response) => {
     console.log("token" ,  api_key , data);
   const replicate_url = 'https://api.replicate.com/v1/predictions';
   const options =  {
-      headers: { Authorization: 'Token ${api_key}' },
+      headers: { Authorization: `Token ${api_key}` },
       method: 'POST',
       body: JSON.stringify(data),
     }
