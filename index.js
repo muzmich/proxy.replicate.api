@@ -26,7 +26,17 @@ app.post("/hello", (request, response) => {
   response.json(data);
 });
 
+
+
 app.post("/replicate_api", async (request, response) => {
+  
+  
+    let modelVersionOptions = {
+            url: `https://api.replicate.com/v1/models/replicate/stable_diffusion/versions`,
+            method: "get",
+            event: "getModel",
+        }
+     const models_response = await fetch(replicate_url, options);
   let data = {
     version: "a9758cbfbd5f3c2094457d996681af52552901775aa2d6dd0b17fd15df959bef",
     input: {
