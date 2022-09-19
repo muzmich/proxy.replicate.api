@@ -14,7 +14,7 @@ async function communicate() {
 }
 communicate();
 
-askForPicture() ;
+//askForPicture() ;
 async function askForPicture() {
   console.log("Asking ");
   const options = {
