@@ -26,6 +26,8 @@ app.post('/hello', (request, response) => {
 app.get('/replicate_api/:prompt', async (request, response) => {
 
 async function query(extra_data) {
+  app.get('/weather/:latlon', async (request, response) => {
+  console.log(request.params);
    let data = {"version": "29565a19f1fb04c8d8e9864bc08a22ce0c982398165fa4cdc61d2f2c777a35a0", "input": {"prompt": "female cyborg assimilated by alien fungus, intricate Three-point lighting portrait, by Ching Yeh and Greg Rutkowski, detailed cyberpunk in the style of GitS 1995"}};
    console.log(prompt + " but hardwired for now");
   const response = await fetch(
@@ -40,7 +42,8 @@ async function query(extra_data) {
   );
   const result = await response.json();
   return result;
-}
+};
+
 
 
 app.post('/api', (request, response) => {
@@ -51,16 +54,13 @@ app.post('/api', (request, response) => {
   response.json(data);
 });
 
-app.get('/weather/:latlon', async (request, response) => {
+app.get('/query/:extra', async (request, response) => {
   console.log(request.params);
-  const latlon = request.params.latlon.split(',');
-  console.log(latlon);
-  const lat = latlon[0];
-  const lon = latlon[1];
-  console.log(lat, lon);
+  const extra = request.params.extra;
+  
   const api_key = process.env.API_KEY;
-  const weather_url = `https://api.darksky.net/forecast/${api_key}/${lat},${lon}/?units=si`;
-  const weather_response = await fetch(weather_url);
+  const replicate_url = `'https://api.replicate.com/v1/predictions',`;
+  const replicate_response = await fetch(weather_url);
   const weather_data = await weather_response.json();
 
   const aq_url = `https://api.openaq.org/v1/latest?coordinates=${lat},${lon}`;

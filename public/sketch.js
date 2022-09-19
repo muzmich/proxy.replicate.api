@@ -8,9 +8,9 @@ async function communicate() {
     },
     body: JSON.stringify(data),
   };
-  const db_response = await fetch("/hello", options);
-  const db_json = await db_response.json();
-  console.log(db_json);
+  //const db_response = await fetch("/hello", options);
+ //const db_json = await db_response.json();
+  //console.log(db_json);
 }
 communicate();
 
