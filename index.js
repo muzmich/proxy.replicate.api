@@ -45,13 +45,15 @@ app.post("/replicate_api", async (request, response) => {
     // 'https://api-inference.huggingface.co/models/EleutherAI/gpt-neo-125M',
     replicate_url,
     {
-      headers: { Authorization: 'TOKEN ${api_key}' },
+      headers: { Authorization: 'TOKEN  ${api_key}' },
       method: "POST",
       body: JSON.stringify(data),
     }
   );
-  const result = await replicate_response.json();
- console.log(result);
+  const replicate_result = await replicate_response.json();
+   console.log(replicate_result);
+    response.json(replicate_result);
+
  // return result;
   
 });
