@@ -28,7 +28,7 @@ app.post("/hello", (request, response) => {
 
 app.post("/replicate_api", async (request, response) => {
   let data = {
-    version: "a9758cbfbd5f3c2094457d996681af52552901775aa2d6dd0b17fd15df959bef",
+    version: "29565a19f1fb04c8d8e9864bc08a22ce0c982398165fa4cdc61d2f2c777a35a0",
     input: {
       prompt: request.body.prompt
     }
