@@ -16,10 +16,11 @@ const database = new Datastore("database.db");
 database.loadDatabase();
 
 app.post("/hello", (request, response) => {
-  const data = request.body;
+  const data = request.params;
   data.message = "HELLOW BACK AT YOU";
-  console.log(data.incoming);
+  console.log("got something ", data);
   //database.insert(data);
+  
   response.json(data);
 });
 
