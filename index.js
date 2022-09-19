@@ -28,7 +28,7 @@ app.post("/hello", (request, response) => {
 
 app.post("/replicate_api", async (request, response) => {
   let data = {
-    version: "29565a19f1fb04c8d8e9864bc08a22ce0c982398165fa4cdc61d2f2c777a35a0",
+    version: "a9758cbfbd5f3c2094457d996681af52552901775aa2d6dd0b17fd15df959bef",
     input: {
       prompt: request.body.prompt
     }
@@ -43,11 +43,8 @@ app.post("/replicate_api", async (request, response) => {
     body: JSON.stringify(data)
   };
   
-
   const replicate_response = await fetch(replicate_url, options);
   const replicate_result = await replicate_response.json();
   console.log(replicate_result);
   response.json(replicate_result);
-
-  // return result;
 });
