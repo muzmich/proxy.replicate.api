@@ -1,16 +1,18 @@
-var input_field = document.createElement("input_prompt");
+var input_field = document.createElement("input");
 input_field.type = "text";
-input_field.val = "Hey there bud";
+input_field.id = "input_prompt";
+input_field.value = "Gothic Fairy";
 const container = document.getElementById("container");
 container.appendChild(input_field);
-addEventListener("input_field", askForPicture);
+input_field.addEventListener("keyup", function(event) {
+    if (event.key === "Enter") {
+       askForPicture(input_field.value) 
+    }
+});
 
-async function askForPicture() {
-  const prompt = document.getElementByID("input_prompt").value();
-  console.log(prompt);
+async function askForPicture(prompt) {
 
-  return;
-  const data = { prompt: "Tall Frog" };
+  const data = { prompt: prompt};
   console.log("Asking for Picture ", data);
   const options = {
     method: "POST",
@@ -39,6 +41,4 @@ async function communicate() {
   const proxy_said = await hello_response.json();
   console.log("proxy relayed this", proxy_said);
   askForPicture();
-  //const db_json = await db_response.json();
-  //console.log(db_json);
 }
