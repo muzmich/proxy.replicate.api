@@ -47,7 +47,6 @@ app.post("/replicate_api", async (request, response) => {
   };
   console.log("prompt: " , data.input.prompt, " data:", data.version);
 
-  // console.log("token", api_key, data);
   const replicate_url = "https://api.replicate.com/v1/predictions";
   const options = {
     headers: { Authorization: `Token ${api_key}`,"Content-Type": "application/json" },
@@ -59,4 +58,20 @@ app.post("/replicate_api", async (request, response) => {
   const replicate_result = await replicate_response.json();
   console.log(replicate_result.id);
   response.json(replicate_result.id);
+  
+   const get_prediction_url = "https://api.replicate.com/v1/predictions/{prediction_id}";
+  const options = {
+    headers: { Authorization: `Token ${api_key}`,"Content-Type": "application/json" },
+    method: "GET"
+    //,
+   // body: JSON.stringify(data),
+  };
+
+  const replicate_response = await fetch(replicate_url, options);
+  const replicate_result = await replicate_response.json();
+  console.log(replicate_result.id);
+  response.json(replicate_result.id);
+  
+  
+  
 });
