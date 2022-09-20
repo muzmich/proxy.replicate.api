@@ -11,42 +11,34 @@ app.listen(port, () => {
 });
 app.use(express.static("public"));
 app.use(express.json({ limit: "1mb" }));
+const api_key = process.env.REPLICATE_API_KEY;
+var version = null;
 
-const database = new Datastore("database.db");
-database.loadDatabase();
 
-app.post("/hello", (request, response) => {
-  const data = request.body;
-
-  console.log("got something ", data);
-  //database.insert(data);
-  data.message = "HELLOW BACK AT YOU";
-  data.justforshow = "wow";
-  console.log("returning ", data);
-  response.json(data);
-});
-
-app.post("/replicate_api", async (request, response) => {
-  const api_key = process.env.REPLICATE_API_KEY;
+async function getModel() {
   const model_url =
     "https://api.replicate.com/v1/models/stability-ai/stable-diffusion";
-  //  GET                 https://api.replicate.com/v1/models/{model_owner}/{model_name}
   let modelVersionOptions = {
     headers: { Authorization: `Token ${api_key}` },
     method: "GET",
   };
   const models_response = await fetch(model_url, modelVersionOptions);
   const models_result = await models_response.json();
-  let version = models_result.latest_version.id;
+  version = models_result.latest_version.id;
   console.log("models response", version);
+}
+
+
+//REPLICATE FOR IMAGE BASED ON PROMPT
+app.post("/replicate_api", async (request, response) => {
+  getModel();  //could be outside of this call
+  //START PREDICTION
   let data = {
     version: version,
     input: {
       prompt: request.body.prompt,
     },
   };
-  //console.log("prompt: ", data.input.prompt, " data:", data.version);
-
   const replicate_url = "https://api.replicate.com/v1/predictions";
   const options = {
     headers: {
@@ -59,10 +51,9 @@ app.post("/replicate_api", async (request, response) => {
 
   const replicate_response = await fetch(replicate_url, options);
   const replicate_result = await replicate_response.json();
- // console.log(replicate_result.id);
- // response.json(replicate_result.id);
   const prediction_id = replicate_result.id;
 
+  //USE PREDICTION ID TO GET THE URL OF THE PICTURE
   const get_prediction_url =
     "https://api.replicate.com/v1/predictions/" + prediction_id;
   const header = {
@@ -82,14 +73,8 @@ app.post("/replicate_api", async (request, response) => {
     });
     get_prediction_result = await get_prediction_response.json();
     predictionStatus = get_prediction_result.status;
-    //console.log("Got Something",  predictionStatus);
     await sleep(500);
-    //console.log("try again");
-    // TODO: only yield if there is a new prediction
-    // yield get_prediction_response.output;
   } while (["starting", "processing"].includes(predictionStatus));
-
-
   console.log(get_prediction_result);
   response.json(get_prediction_result);
 });
@@ -99,3 +84,14 @@ function sleep(ms) {
     setTimeout(resolve, ms);
   });
 }
+
+app.post("/hello", (request, response) => {
+  const data = request.body;
+
+  console.log("got something ", data);
+  //database.insert(data);
+  data.message = "HELLOW BACK AT YOU";
+  data.justforshow = "wow";
+  console.log("returning ", data);
+  response.json(data);
+});
