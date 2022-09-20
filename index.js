@@ -37,6 +37,7 @@ app.post("/replicate_api", async (request, response) => {
     version: version,
     input: {
       prompt: request.body.prompt,
+      seed: 
     },
   };
   const replicate_url = "https://api.replicate.com/v1/predictions";
