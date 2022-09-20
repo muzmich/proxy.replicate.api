@@ -45,7 +45,7 @@ app.post("/replicate_api", async (request, response) => {
       prompt: request.body.prompt,
     },
   };
-  console.log("prompt: ", data.input.prompt, " data:", data.version);
+  //console.log("prompt: ", data.input.prompt, " data:", data.version);
 
   const replicate_url = "https://api.replicate.com/v1/predictions";
   const options = {
@@ -59,8 +59,8 @@ app.post("/replicate_api", async (request, response) => {
 
   const replicate_response = await fetch(replicate_url, options);
   const replicate_result = await replicate_response.json();
-  console.log(replicate_result.id);
-  response.json(replicate_result.id);
+ // console.log(replicate_result.id);
+ // response.json(replicate_result.id);
   const prediction_id = replicate_result.id;
 
   const get_prediction_url =
@@ -75,21 +75,23 @@ app.post("/replicate_api", async (request, response) => {
 
   let get_prediction_response = null;
   let predictionStatus = null;
+  let get_prediction_result = null;
   do {
     get_prediction_response = await fetch(get_prediction_url, {
       headers: header,
     });
-    predictionStatus = get_prediction_response.status;
-    console.log("Got Something", predictionStatus);
-    await sleep(100);
-    console.log("try again");
+    get_prediction_result = await get_prediction_response.json();
+    predictionStatus = get_prediction_result.status;
+    //console.log("Got Something",  predictionStatus);
+    await sleep(500);
+    //console.log("try again");
     // TODO: only yield if there is a new prediction
     // yield get_prediction_response.output;
   } while (["starting", "processing"].includes(predictionStatus));
 
-  const get_prediction_result = await get_prediction_response.json();
+
   console.log(get_prediction_result);
-  //response.json(get_prediction_result);
+  response.json(get_prediction_result);
 });
 
 function sleep(ms) {
