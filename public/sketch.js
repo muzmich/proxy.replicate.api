@@ -24,7 +24,10 @@ async function askForPicture(prompt) {
   const picture_response = await fetch("/replicate_api/", options);
   const proxy_said = await picture_response.json();
   document.getElementById("show_result").src = proxy_said.output[0];
-  console.log("proxy relayed this about picture:", proxy_said.output[0]);
+  let logs = proxy_said.logs.split("\n");
+  logs = logs[0].split(" ");
+  let seed = logs[logs.length-1].trim();
+  console.log("proxy relayed this about picture:", seed, proxy_said);
 }
 
 async function communicate() {
