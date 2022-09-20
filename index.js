@@ -70,19 +70,11 @@ app.post("/replicate_api", async (request, response) => {
      "Content-Type": "application/json",
        Accept: "application/json"
     }
-  const get_prediction_options = {
-    headers: {
-      Authorization: `Token ${api_key}`,
-     "Content-Type": "application/json",
-    },
-    method: "GET",
-    //,
-    // body: JSON.stringify(data),
-  };
+
   console.log(get_prediction_url, {headers:header});
   const get_prediction_response = await fetch(get_prediction_url, {headers:header});
   console.log("Got Something");
   const get_prediction_result = await get_prediction_response.json();
   console.log(get_prediction_result);
-  response.json(get_prediction_result);
+  //response.json(get_prediction_result);
 });
