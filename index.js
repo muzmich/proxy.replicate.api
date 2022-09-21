@@ -15,7 +15,6 @@ app.use(express.json({ limit: "1mb" }));
 const api_key = process.env.REPLICATE_API_KEY;
 var version = null;
 
-
 async function getModel() {
   const model_url =
     "https://api.replicate.com/v1/models/stability-ai/stable-diffusion";
@@ -26,16 +25,17 @@ async function getModel() {
   const models_response = await fetch(model_url, modelVersionOptions);
   const models_result = await models_response.json();
   version = models_result.latest_version.id;
-  console.log("models response", version);
+  console.log("We will be using this model version: ", version);
 }
-
 
 //REPLICATE FOR IMAGE BASED ON PROMPT
 app.post("/replicate_api", async (request, response) => {
-  getModel();  //could be outside of this call
+  await getModel(); //could be outside of this call
   //START PREDICTION
-  let data_to_send =  request.data;
-  data_to_send.version = version;
+  let data_to_send = request.body;
+
+  data_to_send.input.version = version;
+  console.log(data_to_send);
   const replicate_url = "https://api.replicate.com/v1/predictions";
   const options = {
     headers: {
@@ -49,6 +49,7 @@ app.post("/replicate_api", async (request, response) => {
   const replicate_response = await fetch(replicate_url, options);
   const replicate_result = await replicate_response.json();
   const prediction_id = replicate_result.id;
+  console.log("GOT A PREDICTION" , replicate_result)
 
   //USE PREDICTION ID TO GET THE URL OF THE PICTURE
   const get_prediction_url =
