@@ -11,6 +11,8 @@ input_field.addEventListener("keyup", function (event) {
 });
 
 async function askForPicture(p_prompt) {
+  const imageDiv = document.getElementById("resulting_image");
+  imageDiv.innerHTML = "Waiting for reply from Replicate...";
   const data = {
     input: {
       prompt: p_prompt,
@@ -27,26 +29,11 @@ async function askForPicture(p_prompt) {
   const picture_response = await fetch("/replicate_api/", options);
   const proxy_said = await picture_response.json();
   console.log("proxy relayed this about picture:", proxy_said);
-
-  const imageDiv = document.getElementById("resulting_image");
+  if ( proxy_said.output.length == 0){
+    
+  }else
   imageDiv.innerHTML = "";
   let img = document.createElement("img");
   img.src = proxy_said.output[0];
   imageDiv.appendChild(img);
-}
-
-async function communicate() {
-  const data = { incoming: "Hello" };
-  console.log("Communicating sending ", data);
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  };
-  const hello_response = await fetch("/hello/", options);
-  const proxy_said = await hello_response.json();
-  console.log("proxy relayed this", proxy_said);
-  askForPicture();
 }

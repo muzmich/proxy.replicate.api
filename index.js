@@ -30,7 +30,7 @@ async function getModel() {
 
 //REPLICATE FOR IMAGE BASED ON PROMPT
 app.post("/replicate_api", async (request, response) => {
-  await getModel(); //could be outside of this call
+  await getModel(); //could be outside of this function but glitch restarts server alot while i debug.
   //START PREDICTION
   let data_to_send = request.body;
 
@@ -65,6 +65,8 @@ app.post("/replicate_api", async (request, response) => {
   let get_prediction_response = null;
   let predictionStatus = null;
   let get_prediction_result = null;
+  //it will get back to you with a few interim status reports so use do loop to wait for real thing.  
+  //could update web page with these status changes but I don't
   do {
     get_prediction_response = await fetch(get_prediction_url, {
       headers: header,
@@ -83,13 +85,3 @@ function sleep(ms) {
   });
 }
 
-app.post("/hello", (request, response) => {
-  const data = request.body;
-
-  console.log("got something ", data);
-  //database.insert(data);
-  data.message = "HELLOW BACK AT YOU";
-  data.justforshow = "wow";
-  console.log("returning ", data);
-  response.json(data);
-});
