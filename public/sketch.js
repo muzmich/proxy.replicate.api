@@ -29,11 +29,12 @@ async function askForPicture(p_prompt) {
   const picture_response = await fetch("/replicate_api/", options);
   const proxy_said = await picture_response.json();
   console.log("proxy relayed this about picture:", proxy_said);
-  if ( proxy_said.output.length == 0){
-    
-  }else
-  imageDiv.innerHTML = "";
-  let img = document.createElement("img");
-  img.src = proxy_said.output[0];
-  imageDiv.appendChild(img);
+  if (proxy_said.output.length == 0) {
+    imageDiv.innerHTML = "Something went wrong, try it again";
+  } else {
+    imageDiv.innerHTML = "";
+    let img = document.createElement("img");
+    img.src = proxy_said.output[0];
+    imageDiv.appendChild(img);
+  }
 }
