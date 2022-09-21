@@ -34,7 +34,7 @@ app.post("/replicate_api", async (request, response) => {
   //START PREDICTION
   let data_to_send = request.body;
 
-  data_to_send.input.version = version;
+  data_to_send.version = version;
   console.log(data_to_send);
   const replicate_url = "https://api.replicate.com/v1/predictions";
   const options = {

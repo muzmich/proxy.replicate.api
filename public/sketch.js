@@ -4,17 +4,17 @@ input_field.id = "input_prompt";
 input_field.value = "Gothic Fairy";
 const container = document.getElementById("container");
 container.appendChild(input_field);
-input_field.addEventListener("keyup", function(event) {
-    if (event.key === "Enter") {
-       askForPicture(input_field.value) 
-    }
+input_field.addEventListener("keyup", function (event) {
+  if (event.key === "Enter") {
+    askForPicture(input_field.value);
+  }
 });
 
 async function askForPicture(p_prompt) {
   const data = {
     input: {
       prompt: p_prompt,
-    }
+    },
   };
   console.log("Asking for Picture ", data);
   const options = {
@@ -26,11 +26,13 @@ async function askForPicture(p_prompt) {
   };
   const picture_response = await fetch("/replicate_api/", options);
   const proxy_said = await picture_response.json();
-  document.getElementById("show_result").src = proxy_said.output[0];
-  let logs = proxy_said.logs.split("\n");
-  logs = logs[0].split(" ");
-  let seed = logs[logs.length-1].trim();
-  console.log("proxy relayed this about picture:", seed, proxy_said);
+  console.log("proxy relayed this about picture:", proxy_said);
+
+  const imageDiv = document.getElementById("resulting_image");
+  imageDiv.innerHTML = "";
+  let img = document.createElement("img");
+  img.src = proxy_said.output[0];
+  imageDiv.appendChild(img);
 }
 
 async function communicate() {
