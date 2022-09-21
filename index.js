@@ -1,3 +1,4 @@
+//THIS IS PROXY SERVER AS GO BETWEEN YOUR WEB PAGE AND REPLICATE API
 const express = require("express");
 const Datastore = require("nedb");
 const fetch = require("node-fetch");
@@ -33,13 +34,8 @@ async function getModel() {
 app.post("/replicate_api", async (request, response) => {
   getModel();  //could be outside of this call
   //START PREDICTION
-  let data = {
-    version: version,
-    input: {
-      prompt: request.body.prompt,
-      seed: request.body.seed
-    },
-  };
+  let data_to_send =  request.data;
+  data_to_send.version = version;
   const replicate_url = "https://api.replicate.com/v1/predictions";
   const options = {
     headers: {
@@ -47,7 +43,7 @@ app.post("/replicate_api", async (request, response) => {
       "Content-Type": "application/json",
     },
     method: "POST",
-    body: JSON.stringify(data),
+    body: JSON.stringify(data_to_send),
   };
 
   const replicate_response = await fetch(replicate_url, options);

@@ -10,8 +10,12 @@ input_field.addEventListener("keyup", function(event) {
     }
 });
 
-async function askForPicture(prompt) {
-  const data = { prompt: prompt, seed : 16658};
+async function askForPicture(p_prompt) {
+  const data = {
+    input: {
+      prompt: p_prompt,
+    }
+  };
   console.log("Asking for Picture ", data);
   const options = {
     method: "POST",
