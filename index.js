@@ -4,12 +4,10 @@ const Datastore = require("nedb");
 const fetch = require("node-fetch");
 const download = require('./download.js');
 
-console.log(download);
-return;
-
 require("dotenv").config();
 
 const app = express();
+
 const port = process.env.PORT || 3000;
 
 
@@ -90,8 +88,7 @@ app.post("/replicate_api", async (request, response) => {
   
   response.json(get_prediction_result);
   
-  
-  download(get_prediction_result[0])
+  download(get_prediction_result[0], './image.png', () => console.log('Done'))
 });
 
 
