@@ -49,7 +49,7 @@ app.post("/replicate_api", async (request, response) => {
   const replicate_response = await fetch(replicate_url, options);
   const replicate_result = await replicate_response.json();
   const prediction_id = replicate_result.id;
-  console.log("GOT A PREDICTION" , replicate_result)
+  console.log("GOT A PREDICTION", replicate_result);
 
   //USE PREDICTION ID TO GET THE URL OF THE PICTURE
   const get_prediction_url =
@@ -65,7 +65,7 @@ app.post("/replicate_api", async (request, response) => {
   let get_prediction_response = null;
   let predictionStatus = null;
   let get_prediction_result = null;
-  //it will get back to you with a few interim status reports so use do loop to wait for real thing.  
+  //it will get back to you with a few interim status reports so use do loop to wait for real thing.
   //could update web page with these status changes but I don't
   do {
     get_prediction_response = await fetch(get_prediction_url, {
@@ -84,4 +84,3 @@ function sleep(ms) {
     setTimeout(resolve, ms);
   });
 }
-
