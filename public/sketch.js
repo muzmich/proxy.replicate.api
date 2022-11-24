@@ -16,6 +16,8 @@ async function askForPicture(p_prompt) {
   const data = {
     input: {
       prompt: p_prompt,
+      width: 128,
+      height: 128,
     },
   };
   console.log("Asking for Picture ", data);

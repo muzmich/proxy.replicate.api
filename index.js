@@ -42,8 +42,6 @@ app.post("/replicate_api", async (request, response) => {
     headers: {
       Authorization: `Token ${api_key}`,
       "Content-Type": "application/json",
-      width: 64,
-      height: 64,
     },
     method: "POST",
     body: JSON.stringify(data_to_send),
