@@ -31,11 +31,13 @@ async function getModel() {
 //REPLICATE FOR IMAGE BASED ON PROMPT
 app.post("/replicate_api", async (request, response) => {
   await getModel(); //could be outside of this function but glitch restarts server alot while i debug.
+  
   //START PREDICTION
   let data_to_send = request.body;
 
   data_to_send.version = version;
   console.log(data_to_send);
+  
   const replicate_url = "https://api.replicate.com/v1/predictions";
   const options = {
     headers: {
@@ -46,8 +48,10 @@ app.post("/replicate_api", async (request, response) => {
     body: JSON.stringify(data_to_send),
   };
 
+  //Replicate reply
   const replicate_response = await fetch(replicate_url, options);
   const replicate_result = await replicate_response.json();
+  
   const prediction_id = replicate_result.id;
   console.log("GOT A PREDICTION", replicate_result);
 
@@ -75,9 +79,13 @@ app.post("/replicate_api", async (request, response) => {
     predictionStatus = get_prediction_result.status;
     await sleep(500);
   } while (["starting", "processing"].includes(predictionStatus));
+  
   console.log(get_prediction_result);
+  
   response.json(get_prediction_result);
+  
 });
+
 
 function sleep(ms) {
   return new Promise((resolve) => {
