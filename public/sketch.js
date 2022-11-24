@@ -35,6 +35,7 @@ async function askForPicture(p_prompt) {
   
   
   const proxy_said = await picture_response.json();
+  
   console.log("proxy relayed this about picture:", proxy_said);
   if (proxy_said.output.length == 0) {
     imageDiv.innerHTML = "Something went wrong, try it again";

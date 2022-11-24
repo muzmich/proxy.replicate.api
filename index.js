@@ -2,10 +2,16 @@
 const express = require("express");
 const Datastore = require("nedb");
 const fetch = require("node-fetch");
+const download = require('./download.js');
+
+console.log(download);
+return;
+
 require("dotenv").config();
 
 const app = express();
 const port = process.env.PORT || 3000;
+
 
 app.listen(port, () => {
   console.log(`Starting server at ${port}`);
@@ -84,6 +90,8 @@ app.post("/replicate_api", async (request, response) => {
   
   response.json(get_prediction_result);
   
+  
+  download(get_prediction_result[0])
 });
 
 
@@ -92,3 +100,4 @@ function sleep(ms) {
     setTimeout(resolve, ms);
   });
 }
+
