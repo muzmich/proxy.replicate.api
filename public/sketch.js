@@ -13,9 +13,13 @@ input_field.addEventListener("keyup", function (event) {
 async function askForPicture(p_prompt) {
   const imageDiv = document.getElementById("resulting_image");
   imageDiv.innerHTML = "Waiting for reply from Replicate...";
+  
+  //prompt request
   const data = {
     input: {
       prompt: p_prompt,
+      height: 128,
+      width: 128,
     },
   };
   console.log("Asking for Picture ", data);
@@ -26,7 +30,10 @@ async function askForPicture(p_prompt) {
     },
     body: JSON.stringify(data),
   };
+  
   const picture_response = await fetch("/replicate_api/", options);
+  
+  
   const proxy_said = await picture_response.json();
   console.log("proxy relayed this about picture:", proxy_said);
   if (proxy_said.output.length == 0) {
