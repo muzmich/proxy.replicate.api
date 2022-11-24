@@ -1,13 +1,14 @@
 //THIS IS PROXY SERVER AS GO BETWEEN YOUR WEB PAGE AND REPLICATE API
 const express = require("express");
-const Datastore = require("nedb");
 const fetch = require("node-fetch");
 const download = require('./download.js');
+const cors = require('cors')
+
 
 require("dotenv").config();
 
 const app = express();
-
+app.use(cors())
 const port = process.env.PORT || 3000;
 
 
@@ -16,6 +17,7 @@ app.listen(port, () => {
 });
 app.use(express.static("public"));
 app.use(express.json({ limit: "1mb" }));
+
 const api_key = process.env.REPLICATE_API_KEY;
 var version = null;
 
@@ -26,8 +28,12 @@ async function getModel() {
     headers: { Authorization: `Token ${api_key}` },
     method: "GET",
   };
+  console.log(model_url, api_key);
   const models_response = await fetch(model_url, modelVersionOptions);
   const models_result = await models_response.json();
+
+  console.log(models_result);
+
   version = models_result.latest_version.id;
   console.log("We will be using this model version: ", version);
 }
@@ -35,13 +41,15 @@ async function getModel() {
 //REPLICATE FOR IMAGE BASED ON PROMPT
 app.post("/replicate_api", async (request, response) => {
   await getModel(); //could be outside of this function but glitch restarts server alot while i debug.
-  
+
+  console.log('request.body', request.body);
+
   //START PREDICTION
   let data_to_send = request.body;
 
   data_to_send.version = version;
   console.log(data_to_send);
-  
+
   const replicate_url = "https://api.replicate.com/v1/predictions";
   const options = {
     headers: {
@@ -50,12 +58,13 @@ app.post("/replicate_api", async (request, response) => {
     },
     method: "POST",
     body: JSON.stringify(data_to_send),
+    mode: 'no-cors',
   };
 
   //Replicate reply
   const replicate_response = await fetch(replicate_url, options);
   const replicate_result = await replicate_response.json();
-  
+
   const prediction_id = replicate_result.id;
   console.log("GOT A PREDICTION", replicate_result);
 
@@ -83,12 +92,14 @@ app.post("/replicate_api", async (request, response) => {
     predictionStatus = get_prediction_result.status;
     await sleep(500);
   } while (["starting", "processing"].includes(predictionStatus));
-  
+
   console.log(get_prediction_result);
-  
+
   response.json(get_prediction_result);
-  
-  // download(get_prediction_result[0], './image.png', () => console.log('Done'))
+
+  if (get_prediction_result.output && get_prediction_result.output[0]) {
+    download(get_prediction_result.output[0], `./${prediction_id}.png`, () => console.log('Done'))
+  }
 });
 
 
