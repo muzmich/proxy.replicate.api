@@ -28,6 +28,7 @@ async function getModel() {
   console.log("We will be using this model version: ", version);
 }
 
+
 //REPLICATE FOR IMAGE BASED ON PROMPT
 app.post("/replicate_api", async (request, response) => {
   await getModel(); //could be outside of this function but glitch restarts server alot while i debug.
@@ -41,8 +42,8 @@ app.post("/replicate_api", async (request, response) => {
     headers: {
       Authorization: `Token ${api_key}`,
       "Content-Type": "application/json",
-      width: 128,
-      height: 128,
+      width: 64,
+      height: 64,
     },
     method: "POST",
     body: JSON.stringify(data_to_send),
