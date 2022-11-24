@@ -88,7 +88,7 @@ app.post("/replicate_api", async (request, response) => {
   
   response.json(get_prediction_result);
   
-  download(get_prediction_result[0], './image.png', () => console.log('Done'))
+  // download(get_prediction_result[0], './image.png', () => console.log('Done'))
 });
 
 

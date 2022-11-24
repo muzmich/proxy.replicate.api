@@ -1,9 +1,17 @@
 const http = require('http');
 const fs = require('fs');
+const api_key = process.env.REPLICATE_API_KEY;
 
 const download = function(url, dest, cb) {
   const file = fs.createWriteStream(dest);
-  const request = http.get(url, function(response) {
+  
+  const request = http.request(url, {
+    headers: {
+      Authorization: `Token ${api_key}`,
+    },
+    method: "GET",
+    },                 
+    function(response) {
     response.pipe(file);
     file.on('finish', function() {
       file.close(cb);  // close() is async, call cb after close completes.
